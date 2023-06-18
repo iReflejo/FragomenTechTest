@@ -2,6 +2,10 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FragomenTechTest.Api", "FragomenTechTest.Api\FragomenTechTest.Api.csproj", "{53D91D90-956D-4717-A6B5-67177D6A8358}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenWeatherMap.ApiClient", "OpenWeatherMap.ApiClient\OpenWeatherMap.ApiClient.csproj", "{3166818B-7E88-4426-8090-81688A2205FE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeatherBit.ApiClient", "WeatherBit.ApiClient\WeatherBit.ApiClient.csproj", "{88E73292-26DB-49AC-AF72-4869777CACC5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +16,13 @@ Global
 		{53D91D90-956D-4717-A6B5-67177D6A8358}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{53D91D90-956D-4717-A6B5-67177D6A8358}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{53D91D90-956D-4717-A6B5-67177D6A8358}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3166818B-7E88-4426-8090-81688A2205FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3166818B-7E88-4426-8090-81688A2205FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3166818B-7E88-4426-8090-81688A2205FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3166818B-7E88-4426-8090-81688A2205FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{88E73292-26DB-49AC-AF72-4869777CACC5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{88E73292-26DB-49AC-AF72-4869777CACC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{88E73292-26DB-49AC-AF72-4869777CACC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{88E73292-26DB-49AC-AF72-4869777CACC5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

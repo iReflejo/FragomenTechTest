@@ -1,6 +1,11 @@
 ﻿using System.Net;
 using System.Threading.RateLimiting;
 using FragomenTechTest.Api.Models;
+using FragomenTechTest.Api.Services;
+using OpenWeatherMap.ApiClient;
+using OpenWeatherMap.ApiClient.Models;
+using WeatherBit.ApiClient;
+using WeatherBit.ApiClient.Models;
 
 namespace FragomenTechTest.Api.Extensions;
 
@@ -31,5 +36,38 @@ public static class ServiceCollectionExtensions
                 });
             });
         });
+    }
+    
+    public static void ConfigureOpenWeatherMap(this IServiceCollection services, IConfiguration configuration)
+    {
+        var openWeatherMapOptions = new OpenWeatherMapOptions();
+        configuration.GetSection(OpenWeatherMapOptions.SectionName).Bind(openWeatherMapOptions);
+        services.AddOptions<OpenWeatherMapOptions>().Bind(configuration.GetSection(OpenWeatherMapOptions.SectionName));
+        services.AddHttpClient<OpenWeatherMapClient>(options =>
+        {
+            if (openWeatherMapOptions.BaseUrl == null)
+            {
+                throw new Exception($"{nameof(OpenWeatherMapOptions)} configuration is missing {nameof(OpenWeatherMapOptions.BaseUrl)}");
+            }
+            options.BaseAddress = new Uri(openWeatherMapOptions.BaseUrl);
+        });
+    }
+    
+    public static void ConfigureWeatherBit(this IServiceCollection services, IConfiguration configuration)
+    {
+        var weatherBitOptions = new WeatherBitOptions();
+        configuration.GetSection(WeatherBitOptions.SectionName).Bind(weatherBitOptions);
+        services.AddOptions<WeatherBitOptions>().Bind(configuration.GetSection(WeatherBitOptions.SectionName));
+        services.AddHttpClient<WeatherBitClient>(options =>
+        {
+            if (weatherBitOptions.BaseUrl == null)
+            {
+                throw new Exception($"{nameof(OpenWeatherMapOptions)} configuration is missing {nameof(OpenWeatherMapOptions.BaseUrl)}");
+            }
+            options.BaseAddress = new Uri(weatherBitOptions.BaseUrl);
+        });
+
+        services.AddTransient<IWeatherBitClient, WeatherBitClient>();
+        services.AddTransient<IWeatherBitService, WeatherBitService>();
     }
 }
