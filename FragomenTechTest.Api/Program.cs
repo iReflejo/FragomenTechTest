@@ -39,4 +39,20 @@ app.MapGet("weather", async (CurrentWeatherRequest request, IWeatherBitService w
     );
 });
 
+app.MapGet("historic", async (HistoricWeatherRequest request, IWeatherBitService weatherBitService, IValidator<HistoricWeatherRequest> validator) =>
+{
+    var validationResult = await validator.ValidateAsync(request);
+    if (!validationResult.IsValid)
+    {
+        return Results.BadRequest(validationResult.Errors);
+    }
+
+    var response = await weatherBitService.GetHistoricWeather(request);
+
+    return response.Match<IResult>(
+        Results.Ok,
+        err => Results.StatusCode(500)
+    );
+});
+
 app.Run();

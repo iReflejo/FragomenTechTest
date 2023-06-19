@@ -2,6 +2,15 @@
 
 namespace WeatherBit.ApiClient.Models;
 
+public class WeatherBitResponse
+{
+    [JsonProperty("data")]
+    public List<WeatherBitDataResponse> Data { get; set; }
+
+    [JsonProperty("count")]
+    public int Count { get; set; }
+}
+
 public class WeatherBitDataResponse
 {
     [JsonProperty("wind_cdir")]
@@ -80,7 +89,7 @@ public class WeatherBitDataResponse
     public double ElevAngle { get; set; }
 
     [JsonProperty("datetime")]
-    public string Datetime { get; set; }
+    public string DateTime { get; set; }
 
     [JsonProperty("precip")]
     public double Precip { get; set; }
@@ -114,15 +123,6 @@ public class WeatherBitDataResponse
 
     [JsonProperty("slp")]
     public double Slp { get; set; }
-}
-
-public class WeatherBitCurrentResponse
-{
-    [JsonProperty("data")]
-    public List<WeatherBitDataResponse> Data { get; set; }
-
-    [JsonProperty("count")]
-    public int Count { get; set; }
 }
 
 public class Weather

@@ -19,7 +19,7 @@ public class WeatherBitClient : IWeatherBitClient
         _weatherBitOptions = weatherBitOptions.Value;
     }
     
-    public async Task<Result<WeatherBitCurrentResponse>> GetWeatherForecastAsync(WeatherBitRequest request)
+    public async Task<Result<WeatherBitResponse>> GetWeatherForecastAsync(WeatherBitRequest request)
     {
         var queryString = $"key={_weatherBitOptions.ApiKey}&units={request.Units}&lon={request.Longitude}&lat={request.Latitude}";
 
@@ -29,14 +29,35 @@ public class WeatherBitClient : IWeatherBitClient
             var response = await _httpClient.GetAsync(url);
             response.EnsureSuccessStatusCode();
             var responseString = await response.Content.ReadAsStringAsync();
-            var weatherForecast = JsonConvert.DeserializeObject<WeatherBitCurrentResponse>(responseString);
+            var weatherForecast = JsonConvert.DeserializeObject<WeatherBitResponse>(responseString);
             return weatherForecast!;
         }
         catch (HttpRequestException e)
         {
             _logger.LogError(e, "Error getting weather forecast");
 
-            return new Result<WeatherBitCurrentResponse>(e);
+            return new Result<WeatherBitResponse>(e);
+        }
+    }
+
+    public async Task<Result<WeatherBitResponse>> GetHistoricWeatherAsync(WeatherBitHistoricRequest request)
+    {
+        var queryString = $"key={_weatherBitOptions.ApiKey}&units={request.Units}&lon={request.Longitude}&lat={request.Latitude}&start_date={request.StartDate:yyyy-MM-dd}&end_date={request.EndDate:yyyy-MM-dd}";
+        
+        var url = $"/v2.0/history/daily?{queryString}";
+        try
+        {
+            var response = await _httpClient.GetAsync(url);
+            response.EnsureSuccessStatusCode();
+            var responseString = await response.Content.ReadAsStringAsync();
+            var weatherForecast = JsonConvert.DeserializeObject<WeatherBitResponse>(responseString);
+            return weatherForecast!;
+        }
+        catch (HttpRequestException e)
+        {
+            _logger.LogError(e, "Error getting weather forecast");
+
+            return new Result<WeatherBitResponse>(e);
         }
     }
 }

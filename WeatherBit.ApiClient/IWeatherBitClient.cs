@@ -5,5 +5,6 @@ namespace WeatherBit.ApiClient;
 
 public interface IWeatherBitClient
 {
-    Task<Result<WeatherBitCurrentResponse>> GetWeatherForecastAsync(WeatherBitRequest request);
+    Task<Result<WeatherBitResponse>> GetWeatherForecastAsync(WeatherBitRequest request);
+    Task<Result<WeatherBitResponse>> GetHistoricWeatherAsync(WeatherBitHistoricRequest request);
 }

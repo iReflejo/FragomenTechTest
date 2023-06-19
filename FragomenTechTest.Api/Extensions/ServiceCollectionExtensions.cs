@@ -58,16 +58,15 @@ public static class ServiceCollectionExtensions
         var weatherBitOptions = new WeatherBitOptions();
         configuration.GetSection(WeatherBitOptions.SectionName).Bind(weatherBitOptions);
         services.AddOptions<WeatherBitOptions>().Bind(configuration.GetSection(WeatherBitOptions.SectionName));
-        services.AddHttpClient<WeatherBitClient>(options =>
+        services.AddHttpClient<IWeatherBitClient, WeatherBitClient>(options =>
         {
-            if (weatherBitOptions.BaseUrl == null)
+            if (string.IsNullOrWhiteSpace(weatherBitOptions.BaseUrl))
             {
                 throw new Exception($"{nameof(OpenWeatherMapOptions)} configuration is missing {nameof(OpenWeatherMapOptions.BaseUrl)}");
             }
             options.BaseAddress = new Uri(weatherBitOptions.BaseUrl);
         });
 
-        services.AddTransient<IWeatherBitClient, WeatherBitClient>();
         services.AddTransient<IWeatherBitService, WeatherBitService>();
     }
 }

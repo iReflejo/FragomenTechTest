@@ -1,6 +1,6 @@
 ﻿namespace FragomenTechTest.Api.Models;
 
-public class CurrentWeatherResponse
+public class WeatherResponse
 {
     public double Clouds { get; set; }
     public double WindSpd { get; set; }
@@ -14,4 +14,5 @@ public class CurrentWeatherResponse
     public string? Sunrise { get; set; }
     public string? Sunset { get; set; }
     public double Temperature { get; set; }
+    public DateTime? DateTime { get; set; }
 }

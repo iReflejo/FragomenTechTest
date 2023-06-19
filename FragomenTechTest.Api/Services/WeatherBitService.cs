@@ -17,7 +17,7 @@ public class WeatherBitService : IWeatherBitService
         _weatherBitClient = weatherBitClient;
     }
 
-    public async Task<Result<CurrentWeatherResponse>> GetCurrentWeather(CurrentWeatherRequest request)
+    public async Task<Result<WeatherResponse>> GetCurrentWeather(CurrentWeatherRequest request)
     {
         if (request is null)
         {
@@ -40,8 +40,39 @@ public class WeatherBitService : IWeatherBitService
         var apiResponse = await _weatherBitClient.GetWeatherForecastAsync(apiRequest);
 
         return apiResponse.Match(
-            r => new Result<CurrentWeatherResponse>(r.MapToCurrentWeatherResponse()),
-            err => new Result<CurrentWeatherResponse>(err)
+            r => new Result<WeatherResponse>(r.MapToCurrentWeatherResponse()),
+            err => new Result<WeatherResponse>(err)
+        );
+    }
+
+    public async Task<Result<HistoricWeatherSummaryResponse>> GetHistoricWeather(HistoricWeatherRequest request)
+    {
+        if (request is null)
+        {
+            throw new ArgumentNullException(nameof(request));
+        }
+
+        var apiRequest = new WeatherBitHistoricRequest()
+        {
+            Latitude = request.LatitudeDouble!.Value,
+            Longitude = request.LongitudeDouble!.Value,
+            StartDate = request.StartDate!.Value,
+            EndDate = request.EndDate!.Value,
+            
+            Units = request.Units.ToLower() switch
+            {
+                "metric" => "m",
+                "imperial" => "i",
+                "scientific" => "s",
+                _ => "m"
+            }
+        };
+
+        var apiResponse = await _weatherBitClient.GetHistoricWeatherAsync(apiRequest);
+        
+        return apiResponse.Match(
+            r => new Result<HistoricWeatherSummaryResponse>(r.MapToHistoricWeatherResponse()),
+            err => new Result<HistoricWeatherSummaryResponse>(err)
         );
     }
 

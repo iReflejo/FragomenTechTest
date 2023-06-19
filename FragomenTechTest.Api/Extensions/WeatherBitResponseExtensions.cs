@@ -5,7 +5,7 @@ namespace FragomenTechTest.Api.Extensions;
 
 public static class WeatherBitResponseExtensions
 {
-    public static CurrentWeatherResponse MapToCurrentWeatherResponse(this WeatherBitCurrentResponse response)
+    public static WeatherResponse MapToCurrentWeatherResponse(this WeatherBitResponse response)
     {
         if(response.Data == null || response.Data.Count == 0)
         {
@@ -15,7 +15,32 @@ public static class WeatherBitResponseExtensions
         // Get the first day of data
         var data = response.Data[0];
 
-        return new CurrentWeatherResponse
+        return MapSingleWeatherResponse(data);
+    }
+    
+    public static HistoricWeatherSummaryResponse MapToHistoricWeatherResponse(this WeatherBitResponse response)
+    {
+        if(response.Data == null || response.Data.Count == 0)
+        {
+            throw new Exception("No data returned from WeatherBit API");
+        }
+
+        var data = response.Data
+            .Select(MapSingleWeatherResponse).ToList();
+        
+        return new HistoricWeatherSummaryResponse
+        {
+            AverageTemperature = data.Average(x => x.Temperature),
+            LowestTemperature = data.Min(x => x.Temperature),
+            HighestTemperature = data.Max(x => x.Temperature),
+            Data = data
+        };
+    }
+
+    private static WeatherResponse MapSingleWeatherResponse(WeatherBitDataResponse data)
+    {
+        DateTime.TryParse(data.DateTime, out var dateTime);
+        return new WeatherResponse
         {
             Clouds = data.Clouds,
             WindSpd = data.WindSpd,
@@ -28,7 +53,9 @@ public static class WeatherBitResponseExtensions
             Uv = data.Uv,
             Weather = data.Weather?.Description,
             CityName = data.CityName,
-            WindDir = data.WindDir
+            WindDir = data.WindDir,
+            DateTime = dateTime
         };
     }
+
 }
