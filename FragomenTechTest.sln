@@ -6,6 +6,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenWeatherMap.ApiClient", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeatherBit.ApiClient", "WeatherBit.ApiClient\WeatherBit.ApiClient.csproj", "{88E73292-26DB-49AC-AF72-4869777CACC5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FragomenTechTest.Tests", "FragomenTechTest.Tests\FragomenTechTest.Tests.csproj", "{56D4515A-1E0A-4348-809B-BCA0C528275E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{88E73292-26DB-49AC-AF72-4869777CACC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{88E73292-26DB-49AC-AF72-4869777CACC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{88E73292-26DB-49AC-AF72-4869777CACC5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{56D4515A-1E0A-4348-809B-BCA0C528275E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{56D4515A-1E0A-4348-809B-BCA0C528275E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{56D4515A-1E0A-4348-809B-BCA0C528275E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{56D4515A-1E0A-4348-809B-BCA0C528275E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

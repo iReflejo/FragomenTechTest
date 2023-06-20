@@ -3,7 +3,7 @@ using Microsoft.Extensions.Options;
 
 namespace FragomenTechTest.Api.Caching
 {
-    public class FragomenInMemoryCache : IFragomenMemoryCache
+    public class FragomenInMemoryCache : MemoryCache, IFragomenMemoryCache
     {
         private readonly IMemoryCache _memoryCache;
         private readonly ILogger<FragomenInMemoryCache> _logger;
@@ -11,7 +11,7 @@ namespace FragomenTechTest.Api.Caching
         private bool _disposed;
 
         public FragomenInMemoryCache(IMemoryCache memoryCache, IOptions<CachingOptions> cachingOptions,
-            ILogger<FragomenInMemoryCache> logger)
+            ILogger<FragomenInMemoryCache> logger) : base(new MemoryCacheOptions())
         {
             this._memoryCache = memoryCache;
             this._logger = logger;
@@ -28,16 +28,6 @@ namespace FragomenTechTest.Api.Caching
                 result.SetOptions(options);
             }
             return result;
-        }
-
-        public virtual bool TryGetValue(object key, out object value)
-        {
-            return _memoryCache.TryGetValue(key, out value);
-        }
-
-        public virtual void Remove(object key)
-        {
-            _memoryCache.Remove(key);
         }
 
         private bool CacheEnabled => _cachingOptions.CacheEnabled;

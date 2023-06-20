@@ -21,6 +21,12 @@ builder.Services.ConfigureRateLimiter(rateLimitOptions);
 
 var app = builder.Build();
 
+// Setup exception handler to return a generic RFC compliant exception response
+app.UseExceptionHandler(exceptionHandlerApp 
+    => exceptionHandlerApp.Run(async context 
+        => await Results.Problem()
+            .ExecuteAsync(context)));
+
 app.UseHttpsRedirection();
 
 app.UseRateLimiter();
@@ -30,7 +36,7 @@ app.MapGet("weather", async (CurrentWeatherRequest request, IWeatherBitService w
     var validationResult = await validator.ValidateAsync(request);
     if (!validationResult.IsValid)
     {
-        return Results.BadRequest(validationResult.Errors);
+        return Results.ValidationProblem(validationResult.ToDictionary());
     }
 
     var response = await weatherBitService.GetCurrentWeather(request);
@@ -46,7 +52,7 @@ app.MapGet("historic", async (HistoricWeatherRequest request, IWeatherBitService
     var validationResult = await validator.ValidateAsync(request);
     if (!validationResult.IsValid)
     {
-        return Results.BadRequest(validationResult.Errors);
+        return Results.ValidationProblem(validationResult.ToDictionary());
     }
 
     var response = await weatherBitService.GetHistoricWeather(request);

@@ -26,6 +26,13 @@ public static class ServiceCollectionExtensions
             {
                 var remoteIpAddress = context.Connection.RemoteIpAddress;
                 
+                // remote IP is null in integration tests
+                // If the request is from localhost, don't rate limit as key doesnt work
+                if (remoteIpAddress is null || IPAddress.IsLoopback(remoteIpAddress))
+                {
+                    return RateLimitPartition.GetNoLimiter(IPAddress.Loopback);
+                }
+
                 return RateLimitPartition.GetFixedWindowLimiter
                 (remoteIpAddress!, _ => new FixedWindowRateLimiterOptions
                 {
