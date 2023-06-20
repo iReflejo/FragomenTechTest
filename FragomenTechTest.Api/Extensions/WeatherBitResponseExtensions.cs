@@ -1,4 +1,5 @@
-﻿using FragomenTechTest.Api.Models;
+﻿using System.Globalization;
+using FragomenTechTest.Api.Models;
 using WeatherBit.ApiClient.Models;
 
 namespace FragomenTechTest.Api.Extensions;
@@ -39,7 +40,7 @@ public static class WeatherBitResponseExtensions
 
     private static WeatherResponse MapSingleWeatherResponse(WeatherBitDataResponse data)
     {
-        DateTime.TryParse(data.DateTime, out var dateTime);
+        DateTime.TryParseExact(data.DateTime, "yyyy-MM-dd:hh", CultureInfo.InvariantCulture, DateTimeStyles.None, out var dateTime);
         return new WeatherResponse
         {
             Clouds = data.Clouds,

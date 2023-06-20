@@ -1,4 +1,5 @@
 using FluentValidation;
+using FragomenTechTest.Api.Caching;
 using FragomenTechTest.Api.Extensions;
 using FragomenTechTest.Api.Models;
 using FragomenTechTest.Api.Services;
@@ -11,6 +12,7 @@ builder.Configuration.GetSection(RateLimitOptions.SectionName).Bind(rateLimitOpt
 // Add services to the container.
 builder.Services.AddOptions();
 builder.Services.AddValidatorsFromAssemblyContaining<Program>();
+builder.Services.AddCaching(builder.Configuration);
 
 builder.Services.ConfigureOpenWeatherMap(builder.Configuration);
 builder.Services.ConfigureWeatherBit(builder.Configuration);
